@@ -1,0 +1,11 @@
+package com.qna.app.dao;
+
+
+import com.qna.app.model.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface UserDao extends JpaRepository<User, Long> {
+
+    // Define additional query methods if needed
+
+}

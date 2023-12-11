@@ -1,0 +1,5 @@
+package com.qna.app.controller;
+
+public class UserController {
+
+}

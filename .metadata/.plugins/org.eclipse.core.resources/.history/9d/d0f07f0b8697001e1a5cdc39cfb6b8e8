@@ -1,0 +1,5 @@
+package com.qna.app.dao;
+
+public class UserDao {
+
+}

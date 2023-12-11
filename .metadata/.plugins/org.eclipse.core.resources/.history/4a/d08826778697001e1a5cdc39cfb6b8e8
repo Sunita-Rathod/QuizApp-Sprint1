@@ -1,0 +1,5 @@
+package com.qna.app.model;
+
+public class QuizAttempt {
+
+}

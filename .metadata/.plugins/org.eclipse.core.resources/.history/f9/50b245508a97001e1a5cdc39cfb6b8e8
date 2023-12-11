@@ -1,0 +1,44 @@
+package com.qna.app.service;
+
+package com.qna.app.service;
+
+import com.qna.app.dao.QuizAttemptDao;
+import com.qna.app.model.QuizAttempt;
+import com.qna.app.repository.QuizAttemptRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class QuizAttemptService {
+	@Autowired
+    private final QuizAttemptDao quizAttemptDao;
+
+    public List<QuizAttempt> getAllQuizAttempts() {
+        return quizAttemptDao.findAll();
+    }
+
+    public Optional<QuizAttempt> getQuizAttemptById(int id) {
+        return quizAttemptDao.findById(id);
+    }
+
+    public QuizAttempt saveQuizAttempt(QuizAttempt quizAttempt) {
+        return quizAttemptRepository.save(quizAttempt);
+    }
+
+    public void deleteQuizAttempt(int id) {
+        quizAttemptRepository.deleteById(id);
+    }
+
+    public QuizAttempt updateQuizAttempt(int id, QuizAttempt updatedQuizAttempt) {
+        if (quizAttemptRepository.existsById(id)) {
+            updatedQuizAttempt.setId(id);
+            return quizAttemptRepository.save(updatedQuizAttempt);
+        } else {
+            throw new IllegalArgumentException("QuizAttempt with ID " + id + " does not exist.");
+        }
+    }
+}
+

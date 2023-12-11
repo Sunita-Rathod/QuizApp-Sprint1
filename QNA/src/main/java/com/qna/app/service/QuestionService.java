@@ -1,0 +1,71 @@
+package com.qna.app.service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
+import com.qna.app.dao.QuestionDao;
+import com.qna.app.model.Question;
+
+
+
+@Service
+public class QuestionService {
+	@Autowired
+	QuestionDao questionDao;
+
+	public List<Question> getAllQuestions() {
+
+		return questionDao.findAll();
+	}
+	
+	  public List<Question> questionsByCategory(String category)
+	  {
+	  return questionDao.findByCategory(category);
+	  }
+	  
+	  // for add, update delete 
+		
+		public ResponseEntity<String> addQuestion(Question question) {
+			questionDao.save(question);
+			return new ResponseEntity<>("Question added successfully", HttpStatus.CREATED);
+		}
+
+		public ResponseEntity<String> updateQuestion(int id, Question updatedQuestion) {
+			try {
+				Question existingQuestion = questionDao.findById(id);
+				if (existingQuestion != null) {
+					existingQuestion.setCategory(updatedQuestion.getCategory());
+					questionDao.save(existingQuestion);
+					return new ResponseEntity<>("Question updated successfully", HttpStatus.OK);
+				}
+				{
+					return new ResponseEntity<>("Question not found", HttpStatus.NOT_FOUND);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				return new ResponseEntity<>("Failed to update question", HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+		}
+
+		public ResponseEntity<String> deleteQuestion(int id) {
+			try {
+				Question existingQuestion = questionDao.findById(id);
+				if (existingQuestion != null) {
+					questionDao.delete(existingQuestion);
+					return new ResponseEntity<>("Question deleted successfully", HttpStatus.OK);
+				} else {
+					return new ResponseEntity<>("Question not found", HttpStatus.NOT_FOUND);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				return new ResponseEntity<>("Failed to delete question", HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+		}
+	  
+	 
+}
